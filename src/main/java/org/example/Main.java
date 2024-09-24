@@ -2,8 +2,6 @@ package org.example;
 
 import org.example.objetos.*;
 import org.example.objetos.abstractos.CuentaBancaria;
-import org.example.objetos.abstractos.CuentaCorriente;
-
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -93,6 +91,8 @@ public class Main {
 
                         System.out.print("Introduzca el saldo de la cuenta: ");
                         cuenta.setSaldo(sc.nextDouble());
+
+                        sc.nextLine(); //Arregla el scanner antes de leer los Strings
 
                         System.out.print("Introduzca el IBAN de la cuenta: ");
                         cuenta.setIban(sc.nextLine());
