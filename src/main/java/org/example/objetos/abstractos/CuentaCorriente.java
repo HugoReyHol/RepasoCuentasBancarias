@@ -7,6 +7,7 @@ public abstract class CuentaCorriente extends CuentaBancaria{
     private ArrayList<String> entidades;
 
     public CuentaCorriente() {
+        this.entidades = new ArrayList<>();
     }
 
     public CuentaCorriente(String nombre, String apellidos, String dni, double saldo, String iban, ArrayList<String> entidades) {
@@ -20,6 +21,11 @@ public abstract class CuentaCorriente extends CuentaBancaria{
 
     public void setEntidades(ArrayList<String> entidades) {
         this.entidades = entidades;
+    }
+
+    public void addEntidad(String entidad) {
+        this.entidades.add(entidad);
+
     }
 
     @Override

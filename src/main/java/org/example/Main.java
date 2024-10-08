@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.objetos.*;
 import org.example.objetos.abstractos.CuentaBancaria;
+import org.example.objetos.abstractos.CuentaCorriente;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class Main {
 
             int opcion;
             double saldo;
-            String isbn;
+            String iban;
 
             do {
                 // menu
@@ -45,12 +46,12 @@ public class Main {
                         System.out.print("Introduzca el dni del titular: ");
                         String dni = sc.nextLine();
 
-                        System.out.print("Introduzca el tipo de cuenta: " +
+                        Persona titular = new Persona(nombre, apellidos, dni);
+
+                        System.out.println("Introduzca el tipo de cuenta: " +
                                 "\n1.- Ahorro." +
                                 "\n2.- Corriente personal." +
                                 "\n3.- Corriente de empresa.");
-
-                        Persona titular = new Persona(nombre, apellidos, dni);
 
                         int tipo = sc.nextInt();
 
@@ -97,6 +98,26 @@ public class Main {
                         System.out.print("Introduzca el IBAN de la cuenta: ");
                         cuenta.setIban(sc.nextLine());
 
+                        if (tipo != 1 ) { // No es cuenta de ahorro
+
+                            System.out.print("¿Quieres agregar entidades autorizas a retirar dinero? (1)Si/(0)No: ");
+                            int seguir = sc.nextInt();
+
+                            while (seguir != 0){
+                                System.out.println("Introduce una entidad: ");
+                                sc.nextLine();
+                                String entidad = sc.nextLine();
+
+                                ((CuentaCorriente) cuenta).addEntidad(entidad);
+
+                                System.out.print("¿Quieres agregar otra entidades autorizas a retirar dinero? (1)Si/(0)No: ");
+                                seguir = sc.nextInt();
+
+                            }
+                        }
+
+                        banco.abrirCuenta(cuenta);
+
                     }
 
                     case 2 -> { //Listar cuentas
@@ -105,21 +126,21 @@ public class Main {
                     }
 
                     case 3 -> { //Informacion cuentas
-                        System.out.print("Introduzca el ISBN de la cuenta: ");
-                        isbn = sc.nextLine();
+                        System.out.print("Introduzca el IBAN de la cuenta: ");
+                        iban = sc.nextLine();
 
-                        System.out.println(banco.informacionCuenta(isbn));
+                        System.out.println(banco.informacionCuenta(iban));
 
                     }
 
                     case 4 -> { //Ingreso
-                        System.out.print("Introduzca el ISBN de la cuenta: ");
-                        isbn = sc.nextLine();
+                        System.out.print("Introduzca el IBAN de la cuenta: ");
+                        iban = sc.nextLine();
 
                         System.out.print("Introduzca la cantidad a ingresar: ");
                         saldo = sc.nextDouble();
 
-                        if (banco.ingresoCuenta(isbn, saldo)) {
+                        if (banco.ingresoCuenta(iban, saldo)) {
                             System.out.println("Ingreso realizado correctamente.");
 
                         } else {
@@ -128,13 +149,13 @@ public class Main {
                     }
 
                     case 5 -> { //Retirada
-                        System.out.print("Introduzca el ISBN de la cuenta: ");
-                        isbn = sc.nextLine();
+                        System.out.print("Introduzca el IBAN de la cuenta: ");
+                        iban = sc.nextLine();
 
                         System.out.print("Introduzca la cantidad a retirar: ");
                         saldo = sc.nextDouble();
 
-                        if (banco.retiradaCuenta(isbn, saldo)) {
+                        if (banco.retiradaCuenta(iban, saldo)) {
                             System.out.println("Retirada realizada correctamente.");
 
                         } else {
@@ -143,11 +164,18 @@ public class Main {
                     }
 
                     case 6 -> { //Consultar saldo
-                        System.out.print("Introduzca el ISBN de la cuenta: ");
-                        isbn = sc.nextLine();
+                        System.out.print("Introduzca el IBAN de la cuenta: ");
+                        iban = sc.nextLine();
 
-                        System.out.println(banco.obtenerSaldo(isbn));
+                        saldo = banco.obtenerSaldo(iban);
 
+                        if (saldo != -1) {
+                            System.out.println(saldo + "€");
+
+                        } else {
+                            System.out.println("No existe una cuenta con ese IBAN");
+
+                        }
                     }
 
                     case 0 -> System.out.println("Saliendo del programa");

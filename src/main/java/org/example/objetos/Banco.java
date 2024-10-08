@@ -39,7 +39,7 @@ public class Banco {
 
         }
 
-        return null;
+        return "No existe cuenta con ese IBAN";
     }
 
     public boolean ingresoCuenta(String iban, double dinero) {

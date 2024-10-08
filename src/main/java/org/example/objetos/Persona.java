@@ -38,8 +38,8 @@ public class Persona implements Imprimible {
 
     @Override
     public String devolverInfoString() {
-        return "\nNombre: " + this.nombre +
-               ";Apellidos: " + this.apellidos +
-               ";DNI: " + this.dni;
+        return " [Nombre: " + this.nombre +
+               "; Apellidos: " + this.apellidos +
+               "; DNI: " + this.dni + "]";
     }
 }
