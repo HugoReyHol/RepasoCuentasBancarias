@@ -2,10 +2,12 @@ package org.example.objetos.abstractos;
 
 import java.util.ArrayList;
 
+// Clase abstracta para que no pueda ser instanciada y extiende la clase CuentaBancaria
 public abstract class CuentaCorriente extends CuentaBancaria{
 
     private ArrayList<String> entidades;
 
+    // Constructores de la clase
     public CuentaCorriente() {
         this.entidades = new ArrayList<>();
     }
@@ -15,6 +17,7 @@ public abstract class CuentaCorriente extends CuentaBancaria{
         this.entidades = entidades;
     }
 
+    // Getters y setters de la clase
     public ArrayList<String> getEntidades() {
         return entidades;
     }
@@ -28,6 +31,7 @@ public abstract class CuentaCorriente extends CuentaBancaria{
 
     }
 
+    // Sobreescribe el metodo devolverInfoString de la clase padre para añadir el nuevo atributo
     @Override
     public String devolverInfoString() {
         return super.devolverInfoString() +

@@ -3,12 +3,14 @@ package org.example.objetos.abstractos;
 import org.example.interfaces.Imprimible;
 import org.example.objetos.Persona;
 
+// Una clase abstracta para que no se pueda invocar, implementa la interfaz Imprimibe
 public abstract class CuentaBancaria implements Imprimible {
 
     private Persona titular;
     private double saldo;
     private String iban;
 
+    // Constructores de la clase
     public CuentaBancaria() {
     }
 
@@ -18,6 +20,7 @@ public abstract class CuentaBancaria implements Imprimible {
         this.iban = iban;
     }
 
+    // Implementacion del metodo de la interfaz, devuelve un string con los valores de los atributos de la clase
     @Override
     public String devolverInfoString() {
         return "Titular: " + this.titular.devolverInfoString() +
@@ -25,6 +28,7 @@ public abstract class CuentaBancaria implements Imprimible {
                "; IBAN: " + this.iban;
     }
 
+    // Getters y setters de los distintos atributos privados de la clase
     public String getIban() {
         return iban;
     }

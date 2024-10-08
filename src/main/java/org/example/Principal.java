@@ -6,17 +6,17 @@ import org.example.objetos.abstractos.CuentaCorriente;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class Principal {
     public static void main(String[] args) {
 
         try {
-            Scanner sc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in); // El Scanner para leer la entrada
 
-            Banco banco = new Banco();
+            Banco banco = new Banco(); // La instancia de Banco para guardar la coleccion de cuentas y gestionarla
 
-            int opcion;
-            double saldo;
-            String iban;
+            int opcion; // La opcion del menu que a elegido el usuario
+            double saldo; // Guarda el saldo que se usa en varias opciones
+            String iban; // Guarda el iban solicitado al usuario en varias opciones
 
             do {
                 // menu
@@ -35,6 +35,7 @@ public class Main {
 
                 sc.nextLine(); //Arregla el scanner antes de leer los Strings
 
+                // Gestiona el codigo para cada opcion
                 switch (opcion) {
                     case 1 -> { //Abrir cuenta
                         System.out.print("Introduzca el nombre del titular: ");
@@ -46,19 +47,21 @@ public class Main {
                         System.out.print("Introduzca el dni del titular: ");
                         String dni = sc.nextLine();
 
-                        Persona titular = new Persona(nombre, apellidos, dni);
+                        Persona titular = new Persona(nombre, apellidos, dni); // Almacena el titular nuevo
 
                         System.out.println("Introduzca el tipo de cuenta: " +
                                 "\n1.- Ahorro." +
                                 "\n2.- Corriente personal." +
                                 "\n3.- Corriente de empresa.");
 
-                        int tipo = sc.nextInt();
+                        int tipo = sc.nextInt(); // Pide el tipo de cuenta que se va a crear
 
                         CuentaBancaria cuenta;
 
+                        // Maneja el codigo necesario para cada tipo de cuenta que se va a crear
                         switch (tipo) {
                             case 1 -> { //Ahorro
+                                // Crea la cuenta de ahorro y añade el tipo de interes
                                 cuenta = new CuentaAhorro();
 
                                 System.out.print("Introduzca el interes de la cuenta de ahorro: ");
@@ -67,6 +70,7 @@ public class Main {
                             }
 
                             case 2 -> { //Corriente personal
+                                // Crea la cuenta personal y añade el coste de mantenimiento
                                 cuenta = new CuentaCorrientePersonal();
 
                                 System.out.print("Introduzca el coste de mantenimiento de la cuenta corriente personal: ");
@@ -75,6 +79,7 @@ public class Main {
                             }
 
                             case 3 -> { //Corriente de empresa
+                                // Crea la cuenta de empresa y le añade el interes descubierto y el maximo descubierto
                                 cuenta = new CuentaCorrienteEmpresa();
 
                                 System.out.print("Introduzca el interes descubierto de la cuenta corriente de empresa: ");
@@ -85,6 +90,7 @@ public class Main {
 
                             }
 
+                            // Si no se ha elegido una opcion correcta lanza un error
                             default -> throw new Exception("Debe seleccionar una de las cuentas.");
                         }
 
@@ -98,6 +104,7 @@ public class Main {
                         System.out.print("Introduzca el IBAN de la cuenta: ");
                         cuenta.setIban(sc.nextLine());
 
+                        // Si no es cuenta de ahorro se pregunta si quiere añadir entidades autorizadas
                         if (tipo != 1 ) { // No es cuenta de ahorro
 
                             System.out.print("¿Quieres agregar entidades autorizas a retirar dinero? (1)Si/(0)No: ");
@@ -121,11 +128,13 @@ public class Main {
                     }
 
                     case 2 -> { //Listar cuentas
+                        // Llama al metodo del banco para listar las cuentas
                         System.out.println(Arrays.toString(banco.listadoCuentas()));
 
                     }
 
                     case 3 -> { //Informacion cuentas
+                        // Llama al metodo del banco para conseguir la informacion de la cuenta que ha introducido el usuario
                         System.out.print("Introduzca el IBAN de la cuenta: ");
                         iban = sc.nextLine();
 
@@ -134,12 +143,14 @@ public class Main {
                     }
 
                     case 4 -> { //Ingreso
+                        // Llama al metodo del banco para realizar un ingreso
                         System.out.print("Introduzca el IBAN de la cuenta: ");
                         iban = sc.nextLine();
 
                         System.out.print("Introduzca la cantidad a ingresar: ");
                         saldo = sc.nextDouble();
 
+                        // Si duelve true el ingreso a sido correcto y si no ha sido incorrecto
                         if (banco.ingresoCuenta(iban, saldo)) {
                             System.out.println("Ingreso realizado correctamente.");
 
@@ -149,12 +160,14 @@ public class Main {
                     }
 
                     case 5 -> { //Retirada
+                        // Llama al metodo del banco para realizar una retirada
                         System.out.print("Introduzca el IBAN de la cuenta: ");
                         iban = sc.nextLine();
 
                         System.out.print("Introduzca la cantidad a retirar: ");
                         saldo = sc.nextDouble();
 
+                        // Si duelve true la retirada a sido correcta y si no ha sido incorrecta
                         if (banco.retiradaCuenta(iban, saldo)) {
                             System.out.println("Retirada realizada correctamente.");
 
@@ -164,11 +177,13 @@ public class Main {
                     }
 
                     case 6 -> { //Consultar saldo
+                        // Llama al metodo del banco para consultar el saldo de una cuenta
                         System.out.print("Introduzca el IBAN de la cuenta: ");
                         iban = sc.nextLine();
 
                         saldo = banco.obtenerSaldo(iban);
 
+                        // Si el saldo es distinto de -1 lo imprime y si es igual no se ha podido consultar la cuenta
                         if (saldo != -1) {
                             System.out.println(saldo + "€");
 
