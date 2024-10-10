@@ -22,13 +22,15 @@ public class Banco {
     *
     * */
     public boolean abrirCuenta(CuentaBancaria cuenta) {
+        // Comprueba si existe una cuenta con el mismo IBAN que la nueva
         for (CuentaBancaria c : this.cuentas) {
             if (c.getIban().equals(cuenta.getIban())) {
-                return false;
+                return false; // Si existe no añade la cuenta nueva
 
             }
         }
 
+        // Si no existe añade la cuenta nueva
         this.cuentas.add(cuenta);
 
         return true;
@@ -42,8 +44,10 @@ public class Banco {
      *
      * */
     public String[] listadoCuentas() {
+        // Array para guardar la informacion de las cuentas
         String[] listado = new String[this.cuentas.size()];
 
+        // Recorre todas las cuentas del cuentas y agrega su informacion al listado
         for (int i=0; i < this.cuentas.size(); i++) {
             listado[i] = this.cuentas.get(i).devolverInfoString();
 
@@ -61,7 +65,9 @@ public class Banco {
      *
      * */
     public String informacionCuenta(String iban) {
+        // Recorre toda la lista de cuentas buscando la pedida
         for (CuentaBancaria cuenta : this.cuentas) {
+            // Si la encuentra devuelve la informacion
             if (cuenta.getIban().equals(iban)) return cuenta.devolverInfoString();
 
         }
@@ -78,7 +84,9 @@ public class Banco {
      *
      * */
     public boolean ingresoCuenta(String iban, double dinero) {
+        // Recorre toda la lista de cuentas buscando la pedida
         for (CuentaBancaria cuenta : this.cuentas) {
+            // Si la encuentra le añade el dinero al saldo actual
             if (cuenta.getIban().equals(iban)) {
                 cuenta.setSaldo(cuenta.getSaldo() + dinero);
                 return true;
@@ -98,7 +106,9 @@ public class Banco {
      *
      * */
     public boolean retiradaCuenta(String iban, double dinero) {
+        // Recorre toda la lista de cuentas buscando la pedida
         for (CuentaBancaria cuenta : this.cuentas) {
+            // Si la encuentra le resta el dinero al saldo actual
             if (cuenta.getIban().equals(iban) && dinero <= cuenta.getSaldo()) {
                 cuenta.setSaldo(cuenta.getSaldo() - dinero);
                 return true;
@@ -118,13 +128,16 @@ public class Banco {
      *
      * */
     public double obtenerSaldo(String iban) {
+        // Recorre toda la lista de cuentas buscando la pedida
         for (CuentaBancaria cuenta : this.cuentas) {
+            // Si la encuentra devuelve el saldo actual
             if (cuenta.getIban().equals(iban)) {
                 return cuenta.getSaldo();
 
             }
         }
 
+        // Si no la encuentra devuelve -1
         return -1;
     }
 
