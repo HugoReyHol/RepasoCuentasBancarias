@@ -18,18 +18,21 @@ public class Banco {
     *
     * Recibe una cuenta bancaria
     *
-    * Devuelve true si se ha añadido correctamente o false si ha habido algun error
+    * Devuelve true si se ha añadido correctamente o false si ya existia una cuenta con el mismo IBAN
     *
     * */
     public boolean abrirCuenta(CuentaBancaria cuenta) {
-        try {
-            cuentas.add(cuenta);
+        for (CuentaBancaria c : this.cuentas) {
+            if (c.getIban().equals(cuenta.getIban())) {
+                return false;
 
-        } catch (Exception e) {
-            return false;
+            }
         }
 
+        this.cuentas.add(cuenta);
+
         return true;
+
     }
 
     /*

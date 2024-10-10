@@ -9,16 +9,18 @@ import java.util.Scanner;
 public class Principal {
     public static void main(String[] args) {
 
-        try {
-            Scanner sc = new Scanner(System.in); // El Scanner para leer la entrada
 
-            Banco banco = new Banco(); // La instancia de Banco para guardar la coleccion de cuentas y gestionarla
+        Scanner sc = new Scanner(System.in); // El Scanner para leer la entrada
 
-            int opcion; // La opcion del menu que a elegido el usuario
-            double saldo; // Guarda el saldo que se usa en varias opciones
-            String iban; // Guarda el iban solicitado al usuario en varias opciones
+        Banco banco = new Banco(); // La instancia de Banco para guardar la coleccion de cuentas y gestionarla
 
-            do {
+        int opcion = 0; // La opcion del menu que a elegido el usuario
+        double saldo; // Guarda el saldo que se usa en varias opciones
+        String iban; // Guarda el iban solicitado al usuario en varias opciones
+
+        do {
+            try {
+
                 // menu
                 System.out.println("MENU DE OPCIONES:" +
                         "\n1.- Abrir una nueva cuenta." +
@@ -102,15 +104,19 @@ public class Principal {
                         sc.nextLine(); //Arregla el scanner antes de leer los Strings
 
                         System.out.print("Introduzca el IBAN de la cuenta: ");
-                        cuenta.setIban(sc.nextLine());
+                        iban = sc.nextLine();
+
+                        // Comprueba que el IBAN introducido es válido y si no lo es lanza un error
+                        if (!iban.matches("ES\\d{20}")) throw new Exception("El IBAN no tiene un formato válido");
+                        cuenta.setIban(iban);
 
                         // Si no es cuenta de ahorro se pregunta si quiere añadir entidades autorizadas
-                        if (tipo != 1 ) { // No es cuenta de ahorro
+                        if (tipo != 1) { // No es cuenta de ahorro
 
                             System.out.print("¿Quieres agregar entidades autorizas a retirar dinero? (1)Si/(0)No: ");
                             int seguir = sc.nextInt();
 
-                            while (seguir != 0){
+                            while (seguir != 0) {
                                 System.out.println("Introduce una entidad: ");
                                 sc.nextLine();
                                 String entidad = sc.nextLine();
@@ -123,8 +129,14 @@ public class Principal {
                             }
                         }
 
-                        banco.abrirCuenta(cuenta);
+                        // Intenta abrir la nueva cuenta
+                        if (banco.abrirCuenta(cuenta)) {
+                            System.out.println("Cuenta abierta correctamente");
 
+                        } else {
+                            System.out.println("La cuenta ya existe");
+
+                        }
                     }
 
                     case 2 -> { //Listar cuentas
@@ -198,12 +210,13 @@ public class Principal {
                     default -> System.out.println("Opcion no reconocida");
                 }
 
-            } while (opcion != 0);
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
 
-        } catch (Exception e){
-            System.out.println("Error, cerrando el programa");
-            System.out.println(e);
+            }
 
-        }
+        } while (opcion != 0);
+
+
     }
 }
